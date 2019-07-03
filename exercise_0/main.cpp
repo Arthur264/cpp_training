@@ -23,7 +23,7 @@ inline bool start_with_vowels(const char letter) {
     return false;
 }
 
-void increment(char letter, Sounds& sound) {
+void increment(const char letter, Sounds& sound) {
     if (isalpha(letter)) {
         if (start_with_vowels(letter)) {
             ++sound.vowels;
@@ -35,7 +35,7 @@ void increment(char letter, Sounds& sound) {
     }
 }
 
-void read_from_file(Sounds& sound, const char file_path[50]) {
+void read_from_file(Sounds& sound, const char file_path[150]) {
     string line;
     ifstream infile(file_path);
 
