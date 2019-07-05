@@ -4,7 +4,7 @@
 
 using namespace std;
 
-constexpr char STOP_LETTER[] = "q";
+constexpr char STOP_LETTER = 'q';
 
 struct Sounds {
     int vowels = 0;
@@ -18,7 +18,7 @@ inline bool is_vowel(const char letter) {
     return vowels.find(lower_letter) != string::npos;
 }
 
-void increment(const char letter, Sounds &sound) {
+void increment_sound(const char letter, Sounds &sound) {
     if (isalpha(letter)) {
         if (is_vowel(letter)) {
             ++sound.vowels;
@@ -40,7 +40,7 @@ void read_from_file(Sounds &sound, const string &file_path) {
     }
 
     while (infile >> line) {
-        increment(line[0], sound);
+        increment_sound(line[0], sound);
     }
 }
 
@@ -48,8 +48,11 @@ void read_from_console(Sounds &sound) {
     string word;
     cout << "Type words (enter " << STOP_LETTER << " for stop.)!" << std::endl;
 
-    while ((cin >> word) && (STOP_LETTER != word)) {
-        increment(word[0], sound);
+    while (cin >> word) {
+        if (word.size() == 1 && STOP_LETTER == word[0]) {
+            break;
+        }
+        increment_sound(word[0], sound);
     }
 }
 
