@@ -7,18 +7,18 @@ using namespace std;
 constexpr char STOP_LETTER = 'q';
 
 struct Sounds {
-    int vowels = 0;
-    int consonants = 0;
-    int other = 0;
+    int vowels{0};
+    int consonants{0};
+    int other{0};
 };
 
-inline bool is_vowel(const char letter) {
+inline bool is_vowel(const char &letter) {
     const string vowels = "aeiou";
     char lower_letter = tolower(letter);
     return vowels.find(lower_letter) != string::npos;
 }
 
-void increment_sound(const char letter, Sounds &sound) {
+void increment_sound(const char &letter, Sounds &sound) {
     if (isalpha(letter)) {
         if (is_vowel(letter)) {
             ++sound.vowels;
