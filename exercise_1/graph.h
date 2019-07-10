@@ -18,6 +18,7 @@ typedef std::vector<Edge> VectorEdge;
 class Graph {
 public:
     Graph(VectorEdge const &edges, int vertices);
+
     ~Graph() = default;
 
     std::unique_ptr<VectorPair[]> adjVector;
@@ -25,6 +26,6 @@ public:
 
     void shortestPath(int src, int destination) const;
 
+    friend std::ostream &operator<<(std::ostream &out, Graph const &graph);
 };
 
-std::ostream &operator<<(std::ostream &out, Graph const &graph);
