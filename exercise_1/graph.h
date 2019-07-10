@@ -18,6 +18,7 @@ typedef std::vector<Edge> VectorEdge;
 class Graph {
 public:
     Graph(VectorEdge const &edges, int vertices);
+    ~Graph() = default;
 
     std::unique_ptr<VectorPair[]> adjVector;
     int vertices;
