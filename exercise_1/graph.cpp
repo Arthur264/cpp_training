@@ -14,7 +14,7 @@ std::vector<int> Graph::shortestPath(int src, int destination, int &path_length)
     std::vector<int> dist(vertices, INT_MAX);
     std::vector<int> pred(vertices, -1);
     std::vector<int> path;
-    std::unordered_set<int> queue = {};
+    std::unordered_set<int> queue;
 
     queue.insert(src);
     dist[src] = 0;
