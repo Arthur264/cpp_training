@@ -1,11 +1,11 @@
 #include <iostream>
 #include <fstream>
+#include <unordered_set>
 #include "graph.h"
-#include "set"
 
 int load_edges_from_file(const std::string &file_path, VectorEdge &edges) {
     Edge edge;
-    std::set<int> unique_vertices;
+    std::unordered_set<int> unique_vertices;
     std::ifstream infile(file_path);
 
     if (infile.fail()) {
@@ -24,10 +24,11 @@ int load_edges_from_file(const std::string &file_path, VectorEdge &edges) {
 int main(int argc, char **argv) {
     if (argc == 1) {
         std::cerr << "Please pass path to graph file" << std::endl;
-        exit(EXIT_FAILURE);
+        return EXIT_FAILURE;
     }
 
-    int src, destination;
+    int src, destination, path_length;
+    std::vector<int> path;
 
     std::cout << "Please enter start vertex: ";
     std::cin >> src;
@@ -38,7 +39,7 @@ int main(int argc, char **argv) {
 
     if (src == destination) {
         std::cerr << "Start and end is one vertices" << std::endl;
-        exit(EXIT_FAILURE);
+        return EXIT_FAILURE;
     }
 
     VectorEdge edges;
@@ -48,6 +49,13 @@ int main(int argc, char **argv) {
 
     std::cout << graph;
 
-    graph.shortestPath(src, destination);
+    path = graph.shortestPath(src, destination, path_length);
+
+    std::cout << "Shortest path length is: " << path_length << std::endl;
+    std::cout << "Shortest path is: ";
+
+    for (auto const &i: path)
+        std::cout << " -> " << i;
+
     return EXIT_SUCCESS;
 }

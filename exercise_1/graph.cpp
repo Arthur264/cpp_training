@@ -1,22 +1,20 @@
-#include <queue>
-#include <set>
-#include <unistd.h>
+#include <climits>
+#include <unordered_set>
+
 #include "graph.h"
-#include "climits"
 
-
-Graph::Graph(std::vector<Edge> const &edges, int vertices) : vertices{vertices} {
-    adjVector = std::make_unique<VectorPair[]>(vertices);
-    for (const auto &edge: edges) {
-        adjVector[edge.from].emplace_back(std::make_pair(edge.to, edge.distance));
+Graph::Graph(std::vector<Edge> const &edges, int vertices) : vertices{vertices},
+                                                             adjVector{std::make_unique<VectorPair[]>(vertices)} {
+    for (auto const &edge: edges) {
+        adjVector[edge.from].emplace_back(edge.to, edge.distance);
     }
 }
 
-void Graph::shortestPath(int src, int destination) const {
+std::vector<int> Graph::shortestPath(int src, int destination, int &path_length) const {
     std::vector<int> dist(vertices, INT_MAX);
     std::vector<int> pred(vertices, -1);
     std::vector<int> path;
-    std::set<int> queue;
+    std::unordered_set<int> queue = {};
 
     queue.insert(src);
     dist[src] = 0;
@@ -25,7 +23,7 @@ void Graph::shortestPath(int src, int destination) const {
         auto vertex = *queue.begin();
         queue.erase(queue.begin());
 
-        for (const auto &adj: adjVector[vertex]) {
+        for (auto const &adj: adjVector[vertex]) {
             int adj_vertex = adj.first;
             int adj_distance = adj.second;
 
@@ -37,21 +35,22 @@ void Graph::shortestPath(int src, int destination) const {
         }
     }
 
-    std::cout << "Shortest path length is: " << dist[destination] << std::endl;
-    std::cout << "Shortest path is: " << destination;
+    path_length = dist[destination];
+    path.push_back(destination);
 
     while (pred[destination] != -1) {
-        std::cout << " -> " << pred[destination];
         destination = pred[destination];
+        path.push_back(destination);
     }
 
+    return path;
 }
 
 std::ostream &operator<<(std::ostream &out, Graph const &graph) {
     out << "Graph representation " << std::endl;
     for (int i = 0; i < graph.vertices; ++i) {
         out << i;
-        for (auto adj: graph.adjVector[i]) {
+        for (auto const &adj: graph.adjVector[i]) {
             out << " (" << adj.first << "," << adj.second << ")";
         }
         out << std::endl;

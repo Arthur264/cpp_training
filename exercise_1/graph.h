@@ -1,8 +1,6 @@
 #pragma once
 
-#include "vector"
-#include <set>
-#include <list>
+#include <vector>
 #include <iostream>
 #include <memory>
 
@@ -12,8 +10,8 @@ struct Edge {
     int distance{0};
 };
 
-typedef std::vector<std::pair<int, int>> VectorPair;
-typedef std::vector<Edge> VectorEdge;
+using VectorPair = std::vector<std::pair<int, int>>;
+using VectorEdge = std::vector<Edge>;
 
 class Graph {
 public:
@@ -24,7 +22,7 @@ public:
     std::unique_ptr<VectorPair[]> adjVector;
     int vertices;
 
-    void shortestPath(int src, int destination) const;
+    std::vector<int> shortestPath(int src, int destination, int &path_length) const;
 
     friend std::ostream &operator<<(std::ostream &out, Graph const &graph);
 };
