@@ -3,4 +3,4 @@ project(exercise_2)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(exercise_2 main.cpp Course.h Teacher.h Student.h Exam.h IRecord.h IPerson.h RecordStorage.h RecordStorage.cpp Course.cpp Exam.cpp Student.cpp Teacher.cpp)
+add_executable(exercise_2 main.cpp RecordStorage.cpp Course.cpp Exam.cpp Student.cpp Teacher.cpp Record.cpp Person.cpp)

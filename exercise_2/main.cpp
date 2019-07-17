@@ -2,7 +2,7 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
-#include "IRecord.h"
+#include "Record.h"
 #include "RecordStorage.h"
 #include "Student.h"
 #include "Course.h"
@@ -22,7 +22,7 @@ T parse_parameter(std::stringstream &stream) {
     return buffer;
 }
 
-std::shared_ptr<IRecord> record_factory(char &record_type, const std::string &row) {
+std::shared_ptr<Record> record_factory(char &record_type, const std::string &row) {
     std::stringstream stream(row);
     record_type = parse_parameter<char>(stream);
     auto id = parse_parameter<int>(stream);
@@ -72,7 +72,7 @@ int main(int argc, char **argv) {
         std::cerr << "Please pass path to records file" << std::endl;
         return EXIT_FAILURE;
     }
-    FilePathMap file_path_map = {
+    record::FilePathMap file_path_map = {
             {Student::RECORD_PREFIX, "student.txt"},
             {Course::RECORD_PREFIX,  "course.txt"},
             {Teacher::RECORD_PREFIX, "teacher.txt"},
