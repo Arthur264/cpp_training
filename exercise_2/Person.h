@@ -4,7 +4,7 @@
 
 class Person {
 public:
-    explicit Person(std::string name);
+    Person(std::string name);
 
     std::string get_name() const;
 

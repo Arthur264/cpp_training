@@ -1,4 +1,5 @@
 #include <sstream>
+#include <iostream>
 #include "Record.h"
 
 Record::Record(int id) : _id(id) {}

@@ -3,7 +3,8 @@
 
 constexpr const char Course::RECORD_PREFIX;
 
-Course::Course(int id, std::string name, int teacher_id) : Record(id), _name{std::move(name)}, _teacher_id{teacher_id} {}
+Course::Course(int id, std::string name, int teacher_id) : Record(id), _name{std::move(name)},
+                                                           _teacher_id{teacher_id} {}
 
 
 std::string Course::get_formatted() const {

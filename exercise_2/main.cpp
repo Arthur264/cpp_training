@@ -2,59 +2,33 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
-#include "Record.h"
+#include "RecordFactory.h"
 #include "RecordStorage.h"
-#include "Student.h"
-#include "Course.h"
-#include "Exam.h"
-#include "Teacher.h"
 
-template<class T>
-T parse_parameter(std::stringstream &stream) {
-    T buffer;
-    std::string tmp;
-    if (!std::getline(stream, tmp, ',')) {
-        std::cerr << "Parse args failure" << std::endl;
+
+std::shared_ptr<Record>
+record_factory(char &record_type, const std::string &row, const record::RecordFactories &recordFactories) {
+    std::stringstream stream(row);
+    record_type = record::parse_parameter<char>(stream);
+    auto it = recordFactories.find(record_type);
+    if (it == recordFactories.end()) {
         exit(EXIT_FAILURE);
     }
-    std::stringstream ss(tmp);
-    ss >> buffer;
-    return buffer;
-}
+    IRecordFactory *factory = it->second;
+    return factory->create(stream);
 
-std::shared_ptr<Record> record_factory(char &record_type, const std::string &row) {
-    std::stringstream stream(row);
-    record_type = parse_parameter<char>(stream);
-    auto id = parse_parameter<int>(stream);
-    switch (record_type) {
-        case Student::RECORD_PREFIX: {
-            auto name = parse_parameter<std::string>(stream);
-            return std::make_shared<Student>(id, name);
-        }
-        case Course::RECORD_PREFIX: {
-            auto name = parse_parameter<std::string>(stream);
-            auto teacher_id = parse_parameter<int>(stream);
-            return std::make_shared<Course>(id, name, teacher_id);
-        }
-        case Exam::RECORD_PREFIX: {
-            auto course_id = parse_parameter<int>(stream);
-            auto student_id = parse_parameter<int>(stream);
-            auto result = parse_parameter<int>(stream);
-            return std::make_shared<Exam>(id, course_id, student_id, result);
-        }
-        case Teacher::RECORD_PREFIX: {
-            auto name = parse_parameter<std::string>(stream);
-            return std::make_shared<Teacher>(id, name);
-        }
-        default:
-            exit(EXIT_FAILURE);
-    }
 }
 
 void load_records_from_file(const std::string &file_path, RecordStorage &record_storage) {
     char record_type;
     std::string line;
     std::ifstream infile(file_path);
+    record::RecordFactories recordFactories = {
+            {Student::RECORD_PREFIX, new StudentFactory()},
+            {Course::RECORD_PREFIX,  new CourseFactory()},
+            {Teacher::RECORD_PREFIX, new TeacherFactory()},
+            {Exam::RECORD_PREFIX,    new ExamFactory()},
+    };
 
     if (infile.fail()) {
         std::cerr << "File not exist" << std::endl;
@@ -62,7 +36,7 @@ void load_records_from_file(const std::string &file_path, RecordStorage &record_
     }
 
     while (std::getline(infile, line)) {
-        auto record_ptr = record_factory(record_type, line);
+        auto record_ptr = record_factory(record_type, line, recordFactories);
         record_storage.add(record_type, record_ptr);
     }
 }

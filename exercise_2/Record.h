@@ -7,7 +7,7 @@
 
 class Record {
 public:
-    explicit Record(int id);
+    Record(int id);
 
     int get_id() const;
 

@@ -1,10 +1,10 @@
 #pragma once
 
 #include <string>
-#include "Person.h"
 #include "Record.h"
+#include "Person.h"
 
-class Student : public Person, public Record {
+class Student : public Record, public Person {
 public:
     static constexpr const char RECORD_PREFIX = 'S';
 

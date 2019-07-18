@@ -4,7 +4,7 @@
 #include "Person.h"
 #include "Record.h"
 
-class Teacher : public Person, public Record {
+class Teacher : public Record, public Person {
 public:
     static constexpr const char RECORD_PREFIX = 'T';
 

@@ -12,5 +12,6 @@ public:
     std::string get_formatted() const override;
 
 private:
-    const std::string _name;    const int _teacher_id;
+    const std::string _name;
+    const int _teacher_id;
 };

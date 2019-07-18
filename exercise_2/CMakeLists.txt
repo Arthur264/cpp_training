@@ -3,4 +3,6 @@ project(exercise_2)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(exercise_2 main.cpp RecordStorage.cpp Course.cpp Exam.cpp Student.cpp Teacher.cpp Record.cpp Person.cpp)
+file(GLOB SRC_FILES *.cpp)
+
+add_executable(exercise_2 ${SRC_FILES})
