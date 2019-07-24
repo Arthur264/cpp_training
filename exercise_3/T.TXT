@@ -1,0 +1,3 @@
+SHOW TEACHER WHERE T = 0 && r = 0;
+
+cmake-build-debug
