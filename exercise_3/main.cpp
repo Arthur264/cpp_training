@@ -1,11 +1,7 @@
 #include <iostream>
-#include <fstream>
-#include <vector>
-#include <sstream>
 #include "RecordFactory.h"
 #include "RecordStorage.h"
 #include "Invoker.h"
-#include "Command.h"
 #include "ShowCommand.h"
 #include "DeleteCommand.h"
 #include "UpdateCommand.h"
@@ -16,7 +12,7 @@ std::shared_ptr<Record>
 record_factory(char &record_type, const std::string &row, const record::RecordFactories &recordFactories) {
     std::stringstream stream(row);
     record_type = record::parse_parameter<char>(stream);
-    auto it = recordFactories.find(record_type);
+    const auto &it = recordFactories.find(record_type);
     if (it == recordFactories.end()) {
         exit(EXIT_FAILURE);
     }
@@ -27,12 +23,12 @@ void load_records_from_file(const std::string &file_path, RecordStorage &record_
     char record_type;
     std::string line;
     std::ifstream infile(file_path);
-    record::RecordFactories recordFactories = {
-            {Student::RECORD_PREFIX, std::make_shared<StudentFactory>()},
-            {Course::RECORD_PREFIX,  std::make_shared<CourseFactory>()},
-            {Teacher::RECORD_PREFIX, std::make_shared<TeacherFactory>()},
-            {Exam::RECORD_PREFIX,    std::make_shared<ExamFactory>()},
-    };
+
+    record::RecordFactories recordFactories{};
+    recordFactories[Student::RECORD_PREFIX] = std::make_unique<StudentFactory>();
+    recordFactories[Course::RECORD_PREFIX] = std::make_unique<CourseFactory>();
+    recordFactories[Teacher::RECORD_PREFIX] = std::make_unique<TeacherFactory>();
+    recordFactories[Exam::RECORD_PREFIX] = std::make_unique<ExamFactory>();
 
     if (infile.fail()) {
         std::cerr << "File not exist" << std::endl;
@@ -46,7 +42,7 @@ void load_records_from_file(const std::string &file_path, RecordStorage &record_
 }
 
 
-void command_parse(const std::string &command_line, cmd::CommandMap &command_map, Invoker &inv) {
+void command_parse(const std::string &command_line, const cmd::CommandMap &command_map, Invoker &inv) {
     std::smatch matches;
     bool is_match = false;
     for (const auto &it: command_map) {
@@ -83,14 +79,14 @@ int main(int argc, char **argv) {
     std::cout << "Load records from file" << std::endl;
     load_records_from_file(argv[1], record_storage);
 
-    Invoker inv(record_storage);
+    Invoker inv(std::move(record_storage));
     CommandParser command_parser;
 
     inv.set_parser(command_parser);
 
     cmd::CommandMap command_map = {
             {ShowCommand::COMMAND_REGEX_CONDITION,   &Invoker::show_condition_records},
-//            {ShowCommand::COMMAND_REGEX,             &Invoker::show_records},
+            {ShowCommand::COMMAND_REGEX,             &Invoker::show_records},
             {DeleteCommand::COMMAND_REGEX_CONDITION, &Invoker::delete_record},
             {UpdateCommand::COMMAND_REGEX_CONDITION, &Invoker::update_record},
     };

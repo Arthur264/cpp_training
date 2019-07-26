@@ -7,7 +7,7 @@
 
 class Invoker {
 public:
-    Invoker(const RecordStorage &record_storage);
+    explicit Invoker(RecordStorage &&record_storage);
 
     void delete_record(const std::smatch &matches);
 
@@ -21,7 +21,7 @@ public:
 
 private:
     std::shared_ptr<Command> _command;
-    const RecordStorage _record_storage;
+    RecordStorage &_record_storage;
     CommandParser _command_parser;
 };
 

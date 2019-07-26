@@ -11,5 +11,5 @@ public:
     virtual ~Person() = default;
 
 protected:
-    const std::string _name;
+    std::string _name;
 };

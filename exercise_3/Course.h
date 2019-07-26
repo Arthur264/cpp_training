@@ -1,13 +1,14 @@
 #pragma once
 
 #include <string>
+#include <map>
+#include <functional>
 #include "Record.h"
 
 class Course : public Record {
 public:
     static constexpr const char RECORD_PREFIX = 'C';
     static const std::string TABLE_NAME;
-//    static constexpr const  std::unordered_map<std::string, int> PROPERTIES;
 
     Course(int id, std::string name, int teacher_id);
 
@@ -15,7 +16,13 @@ public:
 
     std::string get_pretty_printed() const override;
 
+    bool match(const record::CompareParam &compare_param) const override;
+
+    void update(const record::CompareParam &compare_param) override;
+
 private:
-    const std::string _name;
-    const int _teacher_id;
+    std::string _name;
+    int _teacher_id;
+
+    record::PropMap get_int_props() override;
 };

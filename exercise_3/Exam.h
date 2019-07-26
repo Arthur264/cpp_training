@@ -13,9 +13,14 @@ public:
 
     std::string get_pretty_printed() const override;
 
+    bool match(const record::CompareParam &compare_param) const override;
+
+    void update(const record::CompareParam &compare_param) override;
 
 private:
-    const int _course_id;
-    const int _student_id;
-    const int _result;
+    int _course_id;
+    int _student_id;
+    int _result;
+
+    record::PropMap get_int_props() override;
 };

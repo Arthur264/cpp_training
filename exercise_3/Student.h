@@ -14,4 +14,11 @@ public:
     std::string get_formatted() const override;
 
     std::string get_pretty_printed() const override;
+
+    bool match(const record::CompareParam &compare_param) const override;
+
+    void update(const record::CompareParam &compare_param) override;
+
+private:
+    record::PropMap get_int_props() override;
 };

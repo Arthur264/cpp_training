@@ -5,10 +5,13 @@
 
 class UpdateCommand : public Command {
 public:
-    UpdateCommand(const RecordStorage &record_storage, const std::string &table_name,
-                  const std::vector<cmd::CommandParam> &command_params);
+    UpdateCommand(RecordStorage &record_storage, const std::string &table_name,
+                  const std::vector<record::CompareParam> &command_params,
+                  record::CompareParam update_param);
 
     void execute() override;
 
     static const std::string COMMAND_REGEX_CONDITION;
+private:
+    const record::CompareParam _update_param;
 };

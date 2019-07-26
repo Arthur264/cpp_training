@@ -4,18 +4,13 @@
 #include "RecordStorage.h"
 
 namespace cmd {
-    using ComparisonsMap = std::map<std::string, std::function<bool(int, int)>>;
-
-    struct CommandParam {
-        std::string name;
-        int value;
-        std::string comparison;
-    };
+    using ComparisonsMap = std::map<std::string, record::ComparisonFunc>;
 }
 
 class Command {
 public:
-    Command(const RecordStorage &record_storage, std::string table_name, std::vector<cmd::CommandParam> command_params);
+    Command(RecordStorage &record_storage, std::string table_name,
+            std::vector<record::CompareParam> command_params);
 
     static const cmd::ComparisonsMap comparisons_map;
 
@@ -24,7 +19,9 @@ public:
     virtual void execute() = 0;
 
 protected:
-    const RecordStorage record_storage;
+    RecordStorage &record_storage;
     const std::string table_name;
-    const std::vector<cmd::CommandParam> command_params;
+    const std::vector<record::CompareParam> command_params;
+
+
 };

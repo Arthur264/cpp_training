@@ -1,5 +1,4 @@
 #include <iostream>
-#include <sstream>
 #include "RecordFactory.h"
 
 std::shared_ptr<Record> CourseFactory::create(std::stringstream &stream) const {

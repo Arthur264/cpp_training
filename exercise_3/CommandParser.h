@@ -1,19 +1,20 @@
 #pragma once
 
-
 #include <string>
 #include <vector>
 #include "Command.h"
 
 namespace cmd {
-    inline std::string trim(std::string &str);
+    inline std::string trim(const std::string &str);
 
-    inline std::vector<std::string> split(std::string &str, const std::string &delimiter);
+    inline std::vector<std::string> split(const std::string &str, const std::string &delimiter);
 }
 
 class CommandParser {
 public:
-    cmd::CommandParam parse_condition(std::string &condition) const;
+    record::CompareParam parse_condition(std::string &condition) const;
 
-    std::vector<cmd::CommandParam> parse_expression(std::string expression) const;
+    std::vector<record::CompareParam> parse_expression(std::string &expression) const;
+
+    record::CompareParam parse_update_param(std::string &expression) const;
 };

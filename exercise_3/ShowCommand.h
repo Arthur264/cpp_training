@@ -6,16 +6,16 @@
 
 class ShowCommand : public Command {
 public:
-    ShowCommand(const RecordStorage &record_storage, const std::string &table_name,
-                const std::vector<cmd::CommandParam> &command_params);
+    ShowCommand(RecordStorage &record_storage, const std::string &table_name,
+                const std::vector<record::CompareParam> &command_params = std::vector<record::CompareParam>());
 
     void execute() override;
 
     static const std::string COMMAND_REGEX;
     static const std::string COMMAND_REGEX_CONDITION;
 private:
-    bool _print_table(const std::string &table_name, const record::RecordMap &record_map) const;
+    bool _print_table(const std::string &table_name);
 
-    record::RecordVectorPtr _filter_records(record::RecordVectorPtr records) const;
+    record::RecordVectorPtr _filter_records(const record::RecordVectorPtr &records) const;
 };
 

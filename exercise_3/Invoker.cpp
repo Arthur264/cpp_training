@@ -1,14 +1,14 @@
-#include <iostream>
 #include "Invoker.h"
 #include "UpdateCommand.h"
 #include "ShowCommand.h"
 #include "DeleteCommand.h"
 
 
-Invoker::Invoker(const RecordStorage &record_storage) : _record_storage{record_storage} {}
+Invoker::Invoker(RecordStorage &&record_storage) : _record_storage{record_storage} {}
 
 void Invoker::delete_record(const std::smatch &matches) {
-    auto command_params = _command_parser.parse_expression(matches.str(2));
+    auto param_str = matches.str(2);
+    auto command_params = _command_parser.parse_expression(param_str);
     auto table_name = matches.str(1);
     _command = std::make_shared<DeleteCommand>(_record_storage, table_name, command_params);
     _command->execute();
@@ -16,13 +16,14 @@ void Invoker::delete_record(const std::smatch &matches) {
 
 
 void Invoker::show_records(const std::smatch &matches) {
-    std::cout << matches.str(1) << std::endl;
-//    _command = std::make_shared<ShowCommand>(_record_storage, matches.str(1));
-//    _command->execute();
+    auto table_name = matches.str(1);
+    _command = std::make_shared<ShowCommand>(_record_storage, table_name);
+    _command->execute();
 }
 
 void Invoker::show_condition_records(const std::smatch &matches) {
-    auto command_params = _command_parser.parse_expression(matches.str(2));
+    auto param_str = matches.str(2);
+    auto command_params = _command_parser.parse_expression(param_str);
     auto table_name = matches.str(1);
     _command = std::make_shared<ShowCommand>(_record_storage, table_name, command_params);
     _command->execute();
@@ -30,9 +31,12 @@ void Invoker::show_condition_records(const std::smatch &matches) {
 
 
 void Invoker::update_record(const std::smatch &matches) {
-    auto command_params = _command_parser.parse_expression(matches.str(2));
+    auto param_str = matches.str(2);
+    auto update_str = matches.str(3);
+    auto command_params = _command_parser.parse_expression(update_str);
     auto table_name = matches.str(1);
-    _command = std::make_shared<UpdateCommand>(_record_storage, table_name, command_params);
+    auto update_param = _command_parser.parse_update_param(param_str);
+    _command = std::make_shared<UpdateCommand>(_record_storage, table_name, command_params, update_param);
     _command->execute();
 }
 

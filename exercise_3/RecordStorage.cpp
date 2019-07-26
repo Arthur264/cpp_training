@@ -1,4 +1,3 @@
-#include <fstream>
 #include <iostream>
 #include <algorithm>
 #include "RecordStorage.h"
@@ -9,8 +8,8 @@ RecordStorage::RecordStorage(record::StorageMap storage_map) : _storage_map{std:
 
 void RecordStorage::_sort(const std::string &table_name) {
     std::cout << "Sort " << table_name << " records in RecordStorage" << std::endl;
-    auto compare_records_id = [](const std::shared_ptr<Record> first_record,
-                                 const std::shared_ptr<Record> second_record) -> bool {
+    auto compare_records_id = [](const std::shared_ptr<Record> &first_record,
+                                 const std::shared_ptr<Record> &second_record) -> bool {
         return first_record->get_id() < second_record->get_id();
     };
     std::sort(_record_map[table_name].begin(), _record_map[table_name].end(), compare_records_id);
@@ -41,6 +40,15 @@ void RecordStorage::add(char record_type, const std::shared_ptr<Record> &record_
     _record_map[table_name].push_back(record_ptr);
 }
 
-record::RecordMap RecordStorage::get_record_map() const {
+record::RecordVectorPtr &RecordStorage::get_records(const std::string &table_name) {
+    auto it = _record_map.find(table_name);
+    std::cout << table_name << std::endl;
+    if (_record_map.end() == it) {
+        throw std::invalid_argument("Table not found");
+    }
+    return it->second;
+}
+
+record::RecordMap &RecordStorage::get_record_map() {
     return _record_map;
 }

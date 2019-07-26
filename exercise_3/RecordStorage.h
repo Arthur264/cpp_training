@@ -17,14 +17,10 @@ public:
 
     void add(char record_type, const std::shared_ptr<Record> &record_ptr);
 
-    record::RecordMap get_record_map() const;
+    record::RecordVectorPtr &get_records(const std::string &table_name);
 
-//    void update();
-//
-//    void delete();
-//
-//    void insert();
-//
+    record::RecordMap &get_record_map();
+
     ~RecordStorage() = default;
 
 private:
