@@ -51,14 +51,15 @@ record::CompareParam CommandParser::parse_condition(std::string &condition) cons
 
     auto name = vector_params[0];
     auto value = vector_params[2];
+    auto comparison_sing = vector_params[1];
 
-    auto comparison = Command::comparisons_map.find(vector_params[1]);
+    auto comparison = Command::comparisons_map.find(comparison_sing);
     if (Command::comparisons_map.end() == comparison) {
         throw std::invalid_argument("Invalid comparison expression");
     }
     auto comparison_func = comparison->second;
 
-    return record::CompareParam{name, value, comparison_func};
+    return record::CompareParam{name, value, comparison_func, comparison_sing};
 }
 
 record::CompareParam CommandParser::parse_update_param(std::string &expression) const {
@@ -72,5 +73,5 @@ record::CompareParam CommandParser::parse_update_param(std::string &expression) 
     auto name = vector_params[0];
     auto value = vector_params[1];
 
-    return record::CompareParam{name, value, std::equal_to<>()};
+    return record::CompareParam{name, value, std::equal_to<>(), "="};
 }

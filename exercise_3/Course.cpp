@@ -16,6 +16,7 @@ record::PropMap Course::get_int_props() {
 
 bool Course::match(const record::CompareParam &compare_param) const {
     if (compare_param.name == "Name") {
+        validation_string(compare_param);
         return _name == compare_param.value;
     }
     return match_int(compare_param);

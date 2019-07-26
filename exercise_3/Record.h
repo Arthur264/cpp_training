@@ -16,6 +16,7 @@ namespace record {
         std::string name;
         std::string value;
         ComparisonFunc comparison;
+        std::string comparison_sign;
     };
 }
 
@@ -45,6 +46,8 @@ protected:
     void update_int(const record::CompareParam &compare_param);
 
     void validation_update(const std::string &name) const;
+
+    void validation_string(const record::CompareParam &compare_param) const;
 };
 
 
@@ -65,9 +68,4 @@ namespace record {
         return buffer;
     }
 
-//    void check_string_compare(const ComparisonFunc & comparison_func){
-//        if(comparison_func == std::equal_to<>()){
-//            throw std::invalid_argument("String attributes support only equal to operator");
-//        }
-//    }
 }

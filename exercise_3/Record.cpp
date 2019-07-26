@@ -36,3 +36,9 @@ void Record::update_int(const record::CompareParam &compare_param) {
     }
     *it->second =  record::parse_parameter<int>(stream);
 }
+
+void Record::validation_string(const record::CompareParam &compare_param) const{
+    if(compare_param.comparison_sign != "="){
+        throw std::invalid_argument("String attributes support only equal to operator");
+    }
+}
