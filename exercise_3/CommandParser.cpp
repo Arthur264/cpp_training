@@ -1,18 +1,15 @@
-#include <stdexcept>
+#include <sstream>
 #include <iterator>
 #include "CommandParser.h"
 
 namespace cmd {
     inline std::string trim(const std::string &str) {
-        if(str == " "){
-            return "";
-        }
-        std::size_t first = str.find_first_not_of(' ');
-        if (std::string::npos == first) {
-            return str;
-        }
-        std::size_t last = str.find_last_not_of(' ');
-        return str.substr(first, (last - first + 1));
+        std::string result;
+        std::stringstream trimmer;
+        trimmer << str;
+        trimmer.clear();
+        trimmer >> result;
+        return result;
     }
 
     inline std::vector<std::string> split(const std::string &str, const std::string &delimiter) {
