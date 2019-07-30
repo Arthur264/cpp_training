@@ -9,30 +9,30 @@
 
 class IRecordFactory {
 public:
-    virtual std::shared_ptr<Record> create(std::stringstream &stream) const = 0;
+    virtual std::unique_ptr<Record> create(std::stringstream &stream) const = 0;
 };
 
 
 class CourseFactory : public IRecordFactory {
 public:
-    std::shared_ptr<Record> create(std::stringstream &stream) const override;
+    std::unique_ptr<Record> create(std::stringstream &stream) const override;
 };
 
 
 class ExamFactory : public IRecordFactory {
 public:
-    std::shared_ptr<Record> create(std::stringstream &stream) const override;
+    std::unique_ptr<Record> create(std::stringstream &stream) const override;
 };
 
 
 class StudentFactory : public IRecordFactory {
 public:
-    std::shared_ptr<Record> create(std::stringstream &stream) const override;
+    std::unique_ptr<Record> create(std::stringstream &stream) const override;
 };
 
 class TeacherFactory : public IRecordFactory {
 public:
-    std::shared_ptr<Record> create(std::stringstream &stream) const override;
+    std::unique_ptr<Record> create(std::stringstream &stream) const override;
 };
 
 namespace record {

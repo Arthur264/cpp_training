@@ -4,7 +4,7 @@
 constexpr const char Course::RECORD_PREFIX;
 const std::string Course::TABLE_NAME = "COURSE";
 
-Course::Course(int id, std::string name, int teacher_id) : Record(id), _name{std::move(name)},
+Course::Course(int id, std::string name, int teacher_id) : Record{id}, _name{std::move(name)},
                                                            _teacher_id{teacher_id} {}
 
 

@@ -4,13 +4,12 @@
 constexpr const char Exam::RECORD_PREFIX;
 const std::string Exam::TABLE_NAME = "EXAM";
 
-Exam::Exam(int id, int course_id, int student_id, int result) : Record(id), _course_id{course_id},
+Exam::Exam(int id, int course_id, int student_id, int result) : Record{id}, _course_id{course_id},
                                                                 _student_id{student_id},
                                                                 _result{result} {}
 
 
 record::PropMap Exam::get_int_props() {
-//    std::cout << "&Result "<< &_result << std::endl;
     return record::PropMap{
             {"CourseId",  &_course_id},
             {"StudentId", &_student_id},

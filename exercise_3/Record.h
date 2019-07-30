@@ -11,7 +11,7 @@
 
 namespace record {
     using ComparisonFunc = std::function<bool(int, int)>;
-    using PropMap = std::unordered_map<std::string, int*>;
+    using PropMap = std::unordered_map<std::string, int *>;
     struct CompareParam {
         std::string name;
         std::string value;

@@ -1,6 +1,6 @@
 #include "Record.h"
 
-Record::Record(int id) : _id(id) {}
+Record::Record(int id) : _id{id} {}
 
 int Record::get_id() const {
     return _id;
@@ -34,11 +34,11 @@ void Record::update_int(const record::CompareParam &compare_param) {
     if (it == props.end()) {
         throw std::invalid_argument("Error parse conditions params");
     }
-    *it->second =  record::parse_parameter<int>(stream);
+    *it->second = record::parse_parameter<int>(stream);
 }
 
-void Record::validation_string(const record::CompareParam &compare_param) const{
-    if(compare_param.comparison_sign != "="){
+void Record::validation_string(const record::CompareParam &compare_param) const {
+    if (compare_param.comparison_sign != "=") {
         throw std::invalid_argument("String attributes support only equal to operator");
     }
 }

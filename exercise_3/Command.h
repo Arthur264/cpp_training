@@ -4,7 +4,7 @@
 #include "RecordStorage.h"
 
 namespace cmd {
-    using ComparisonsMap = std::map<std::string, record::ComparisonFunc>;
+    using ComparisonsMap = std::unordered_map<std::string, record::ComparisonFunc>;
 }
 
 class Command {
@@ -22,6 +22,4 @@ protected:
     RecordStorage &record_storage;
     const std::string table_name;
     const std::vector<record::CompareParam> command_params;
-
-
 };

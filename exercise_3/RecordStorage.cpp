@@ -7,7 +7,6 @@ RecordStorage::RecordStorage(record::StorageMap storage_map) : _storage_map{std:
 
 
 void RecordStorage::_sort(const std::string &table_name) {
-    std::cout << "Sort " << table_name << " records in RecordStorage" << std::endl;
     auto compare_records_id = [](const std::shared_ptr<Record> &first_record,
                                  const std::shared_ptr<Record> &second_record) -> bool {
         return first_record->get_id() < second_record->get_id();

@@ -5,7 +5,7 @@ const std::string DeleteCommand::COMMAND_REGEX_CONDITION = "DELETE (.+) WHERE (.
 
 DeleteCommand::DeleteCommand(RecordStorage &record_storage, const std::string &table_name,
                              const std::vector<record::CompareParam> &command_params) :
-        Command(record_storage, table_name, command_params) {
+        Command{record_storage, table_name, command_params} {
 }
 
 void DeleteCommand::execute() {

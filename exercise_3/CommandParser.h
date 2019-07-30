@@ -12,9 +12,9 @@ namespace cmd {
 
 class CommandParser {
 public:
-    record::CompareParam parse_condition(std::string &condition) const;
+    record::CompareParam parse_condition(const std::string &condition) const;
 
-    std::vector<record::CompareParam> parse_expression(std::string &expression) const;
+    std::vector<record::CompareParam> parse_expression(const std::string &expression) const;
 
-    record::CompareParam parse_update_param(std::string &expression) const;
+    record::CompareParam parse_update_param(const std::string &expression) const;
 };

@@ -10,14 +10,14 @@ void Invoker::delete_record(const std::smatch &matches) {
     auto param_str = matches.str(2);
     auto command_params = _command_parser.parse_expression(param_str);
     auto table_name = matches.str(1);
-    _command = std::make_shared<DeleteCommand>(_record_storage, table_name, command_params);
+    _command = std::make_unique<DeleteCommand>(_record_storage, table_name, command_params);
     _command->execute();
 }
 
 
 void Invoker::show_records(const std::smatch &matches) {
     auto table_name = matches.str(1);
-    _command = std::make_shared<ShowCommand>(_record_storage, table_name);
+    _command = std::make_unique<ShowCommand>(_record_storage, table_name);
     _command->execute();
 }
 
@@ -25,7 +25,7 @@ void Invoker::show_condition_records(const std::smatch &matches) {
     auto param_str = matches.str(2);
     auto command_params = _command_parser.parse_expression(param_str);
     auto table_name = matches.str(1);
-    _command = std::make_shared<ShowCommand>(_record_storage, table_name, command_params);
+    _command = std::make_unique<ShowCommand>(_record_storage, table_name, command_params);
     _command->execute();
 }
 
@@ -36,7 +36,7 @@ void Invoker::update_record(const std::smatch &matches) {
     auto command_params = _command_parser.parse_expression(update_str);
     auto table_name = matches.str(1);
     auto update_param = _command_parser.parse_update_param(param_str);
-    _command = std::make_shared<UpdateCommand>(_record_storage, table_name, command_params, update_param);
+    _command = std::make_unique<UpdateCommand>(_record_storage, table_name, command_params, update_param);
     _command->execute();
 }
 

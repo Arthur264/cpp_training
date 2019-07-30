@@ -2,7 +2,6 @@
 
 #include <regex>
 #include <vector>
-#include "Command.h"
 #include "CommandParser.h"
 
 class Invoker {
@@ -20,13 +19,13 @@ public:
     void set_parser(const CommandParser &command_parser);
 
 private:
-    std::shared_ptr<Command> _command;
+    std::unique_ptr<Command> _command;
     RecordStorage &_record_storage;
     CommandParser _command_parser;
 };
 
 namespace cmd {
-    typedef void(Invoker::*InvokerFunc)(const std::smatch &);
+    using InvokerFunc = void (Invoker::*)(const std::smatch &);
 
     using CommandMap = std::map<std::string, InvokerFunc>;
 }

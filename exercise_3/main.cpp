@@ -44,20 +44,17 @@ void load_records_from_file(const std::string &file_path, RecordStorage &record_
 
 void command_parse(const std::string &command_line, const cmd::CommandMap &command_map, Invoker &inv) {
     std::smatch matches;
-    bool is_match = false;
-    for (const auto &it: command_map) {
-        if (std::regex_search(command_line, matches, std::regex(it.first)) && matches.size() > 1) {
-            try {
-                (inv.*it.second)(matches);
-            } catch (std::invalid_argument &e) {
-                std::cerr << "Invalid command argument: " << e.what() << std::endl;
-            }
-            is_match = true;
-            break;
-        }
-    }
-    if (!is_match) {
+    auto command_match = [&command_line, &matches](const auto &it) -> bool {
+        return std::regex_search(command_line, matches, std::regex(it.first)) && matches.size() > 1;
+    };
+    auto command = std::find_if(command_map.begin(), command_map.end(), command_match);
+    if (command == command_map.end()) {
         std::cerr << "Invalid command, please try again" << std::endl;
+    }
+    try {
+        (inv.*command->second)(matches);
+    } catch (std::invalid_argument &e) {
+        std::cerr << "Invalid command argument: " << e.what() << std::endl;
     }
 }
 
