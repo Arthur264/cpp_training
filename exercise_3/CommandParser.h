@@ -5,7 +5,11 @@
 #include "Command.h"
 
 namespace cmd {
-    inline std::string trim(const std::string &str);
+    inline std::string ltrim(const std::string &s);
+
+    inline std::string rtrim(const std::string &s);
+
+    inline std::string trim(const std::string &s);
 
     inline std::vector<std::string> split(const std::string &str, const std::string &delimiter);
 }

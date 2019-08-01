@@ -4,7 +4,7 @@
 constexpr const char Student::RECORD_PREFIX;
 const std::string Student::TABLE_NAME = "STUDENT";
 
-Student::Student(int id, std::string name) : Record{id}, Person{std::move(name)} {}
+Student::Student(int id, const std::string &name) : Record{id}, Person{name} {}
 
 
 record::PropMap Student::get_int_props() {

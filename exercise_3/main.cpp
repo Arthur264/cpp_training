@@ -14,15 +14,21 @@ record_factory(char &record_type, const std::string &row, const record::RecordFa
     record_type = record::parse_parameter<char>(stream);
     const auto &it = recordFactories.find(record_type);
     if (it == recordFactories.end()) {
+        std::cerr << "Unknown record type" << std::endl;
         exit(EXIT_FAILURE);
     }
     return it->second->create(stream);
 }
 
 void load_records_from_file(const std::string &file_path, RecordStorage &record_storage) {
+    std::ifstream infile(file_path);
+    if (infile.fail()) {
+        std::cerr << "File not exist" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
     char record_type;
     std::string line;
-    std::ifstream infile(file_path);
 
     record::RecordFactories recordFactories{};
     recordFactories[Student::RECORD_PREFIX] = std::make_unique<StudentFactory>();
@@ -30,10 +36,6 @@ void load_records_from_file(const std::string &file_path, RecordStorage &record_
     recordFactories[Teacher::RECORD_PREFIX] = std::make_unique<TeacherFactory>();
     recordFactories[Exam::RECORD_PREFIX] = std::make_unique<ExamFactory>();
 
-    if (infile.fail()) {
-        std::cerr << "File not exist" << std::endl;
-        exit(EXIT_FAILURE);
-    }
 
     while (std::getline(infile, line)) {
         auto record_ptr = record_factory(record_type, line, recordFactories);
@@ -42,20 +44,23 @@ void load_records_from_file(const std::string &file_path, RecordStorage &record_
 }
 
 
-void command_parse(const std::string &command_line, const cmd::CommandMap &command_map, Invoker &inv) {
+bool command_parse(const std::string &command_line, const cmd::CommandMap &command_map, Invoker &inv) {
     std::smatch matches;
-    auto command_match = [&command_line, &matches](const auto &it) -> bool {
+    auto command_match = [&command_line, &matches](const auto &it) {
         return std::regex_search(command_line, matches, std::regex(it.first)) && matches.size() > 1;
     };
     auto command = std::find_if(command_map.begin(), command_map.end(), command_match);
     if (command == command_map.end()) {
         std::cerr << "Invalid command, please try again" << std::endl;
+        return false;
     }
     try {
         (inv.*command->second)(matches);
     } catch (std::invalid_argument &e) {
         std::cerr << "Invalid command argument: " << e.what() << std::endl;
+        return false;
     }
+    return true;
 }
 
 int main(int argc, char **argv) {

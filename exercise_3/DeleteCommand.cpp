@@ -1,7 +1,7 @@
 #include <algorithm>
 #include "DeleteCommand.h"
 
-const std::string DeleteCommand::COMMAND_REGEX_CONDITION = "DELETE (.+) WHERE (.+);";
+const std::string DeleteCommand::COMMAND_REGEX_CONDITION = "^DELETE (.+) WHERE (.+);";
 
 DeleteCommand::DeleteCommand(RecordStorage &record_storage, const std::string &table_name,
                              const std::vector<record::CompareParam> &command_params) :
@@ -12,7 +12,7 @@ void DeleteCommand::execute() {
     int deleted_rows = 0;
     auto &records = record_storage.get_records(table_name);
     auto command_params_copy = command_params;
-    auto match_records = [&deleted_rows, command_params_copy](const std::shared_ptr<Record> &record) -> bool {
+    auto match_records = [&deleted_rows, command_params_copy](const std::shared_ptr<Record> &record) {
         for (const auto &command_param: command_params_copy) {
             if (!record->match(command_param)) {
                 return false;

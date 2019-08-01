@@ -1,11 +1,11 @@
 #include "UpdateCommand.h"
 
-const std::string UpdateCommand::COMMAND_REGEX_CONDITION("UPDATE (\\w+) (.+) WHERE (.+);");
+const std::string UpdateCommand::COMMAND_REGEX_CONDITION("^UPDATE (\\w+) (.+) WHERE (.+);");
 
 UpdateCommand::UpdateCommand(RecordStorage &record_storage, const std::string &table_name,
                              const std::vector<record::CompareParam> &command_params,
-                             record::CompareParam update_param) :
-        Command{record_storage, table_name, command_params}, _update_param{std::move(update_param)} {}
+                             const record::CompareParam &update_param) :
+        Command{record_storage, table_name, command_params}, _update_param{update_param} {}
 
 void UpdateCommand::execute() {
     auto &records = record_storage.get_records(table_name);

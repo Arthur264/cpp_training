@@ -7,7 +7,7 @@ class UpdateCommand : public Command {
 public:
     UpdateCommand(RecordStorage &record_storage, const std::string &table_name,
                   const std::vector<record::CompareParam> &command_params,
-                  record::CompareParam update_param);
+                  const record::CompareParam &update_param);
 
     void execute() override;
 

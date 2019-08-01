@@ -9,8 +9,8 @@ namespace cmd {
 
 class Command {
 public:
-    Command(RecordStorage &record_storage, std::string table_name,
-            std::vector<record::CompareParam> command_params);
+    Command(RecordStorage &record_storage, const std::string &table_name,
+            const std::vector<record::CompareParam> &command_params);
 
     static const cmd::ComparisonsMap comparisons_map;
 

@@ -1,8 +1,8 @@
 #include <iostream>
 #include "ShowCommand.h"
 
-const std::string ShowCommand::COMMAND_REGEX("SHOW (.+);");
-const std::string ShowCommand::COMMAND_REGEX_CONDITION("SHOW (.+) WHERE (.+);");
+const std::string ShowCommand::COMMAND_REGEX("^SHOW (.+);");
+const std::string ShowCommand::COMMAND_REGEX_CONDITION("^SHOW (.+) WHERE (.+);");
 
 ShowCommand::ShowCommand(RecordStorage &record_storage, const std::string &table_name,
                          const std::vector<record::CompareParam> &command_params) :
@@ -23,7 +23,7 @@ void ShowCommand::execute() {
 bool ShowCommand::_print_table(const std::string &table_name) {
     const auto &records = record_storage.get_records(table_name);
     std::cout << "Table " << table_name << ":" << std::endl;
-    auto filtered_records = _filter_records(records);
+    const auto filtered_records = _filter_records(records);
     if (filtered_records.empty()) {
         std::cerr << "No matches found" << std::endl;
         return false;
@@ -43,7 +43,7 @@ record::RecordVectorPtr ShowCommand::_filter_records(const record::RecordVectorP
 
     record::RecordVectorPtr filtered_records;
     for (const auto &record: records) {
-        auto compare_records = [&record](const record::CompareParam &command_param) -> bool {
+        auto compare_records = [&record](const record::CompareParam &command_param) {
             return record->match(command_param);
         };
         if (std::all_of(command_params.begin(), command_params.end(), compare_records)) {

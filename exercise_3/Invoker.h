@@ -19,7 +19,6 @@ public:
     void set_parser(const CommandParser &command_parser);
 
 private:
-    std::unique_ptr<Command> _command;
     RecordStorage &_record_storage;
     CommandParser _command_parser;
 };

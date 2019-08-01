@@ -3,12 +3,12 @@
 #include "RecordStorage.h"
 
 
-RecordStorage::RecordStorage(record::StorageMap storage_map) : _storage_map{std::move(storage_map)} {}
+RecordStorage::RecordStorage(record::StorageMap storage_map) : _storage_map{storage_map} {}
 
 
 void RecordStorage::_sort(const std::string &table_name) {
     auto compare_records_id = [](const std::shared_ptr<Record> &first_record,
-                                 const std::shared_ptr<Record> &second_record) -> bool {
+                                 const std::shared_ptr<Record> &second_record) {
         return first_record->get_id() < second_record->get_id();
     };
     std::sort(_record_map[table_name].begin(), _record_map[table_name].end(), compare_records_id);

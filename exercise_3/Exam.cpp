@@ -22,7 +22,6 @@ bool Exam::match(const record::CompareParam &compare_param) const {
 }
 
 void Exam::update(const record::CompareParam &compare_param) {
-    std::stringstream stream(compare_param.value);
     validation_update(compare_param.name);
     update_int(compare_param);
 }

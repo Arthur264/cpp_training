@@ -10,7 +10,7 @@ public:
     static constexpr const char RECORD_PREFIX = 'C';
     static const std::string TABLE_NAME;
 
-    Course(int id, std::string name, int teacher_id);
+    Course(int id, const std::string &name, int teacher_id);
 
     std::string get_formatted() const override;
 
