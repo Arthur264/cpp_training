@@ -1,0 +1,5 @@
+SHOW EXAM WHERE CourseId = 0 && Result = 90;
+DELETE EXAM WHERE CourseId = 0 && Result = 90;
+UPDATE EXAM Result 30 WHERE CourseId = 0 && Result = 90;
+SHOW *;
+SHOW TEACHER;
